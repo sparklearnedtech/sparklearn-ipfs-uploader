@@ -17,9 +17,9 @@ class App extends React.Component {
   async onChange(e) {
     const file = e.target.files[0];
     if (this.state.passcode !== process.env.REACT_APP_Password) {
-      this.setState({ error: "Wrong passcode.", fileURL:"" });
+      this.setState({ error: "Wrong passcode.", fileURL:"", passcode:"" });
     } else if (file.size > 10e5) {
-      this.setState({ error: "Please upload a file smaller than 1 MB", fileURL:"" });
+      this.setState({ error: "Please upload a file smaller than 1 MB", fileURL:"", passcode:"" });
     } else {
       try {
         const auth = "Basic " + Buffer.from(`${process.env.REACT_APP_ProjectId}:${process.env.REACT_APP_ProjectSecret}`).toString("base64");
@@ -34,10 +34,10 @@ class App extends React.Component {
         const added = await client.add(file);
         //console.log(added);
         const url = `https://ipfs.io/ipfs/${added.path}`
-        this.setState({ fileURL:url, error:"" });
+        this.setState({ fileURL:url, passcode:"", error:"" });
         //console.log(url);
       } catch (error) {
-        this.setState({ error:error, fileURL:"" });
+        this.setState({ error:error, fileURL:"", passcode:"" });
         //console.log('Error uploading file: ', error);
       }
     }
